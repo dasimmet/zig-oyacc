@@ -1,0 +1,17 @@
+.{
+    .name = .oyacc,
+    .version = "6.6.0",
+    .fingerprint = 0x1809510634fdc9d3,
+    .minimum_zig_version = "0.15.1",
+    .dependencies = .{
+        .yacc = .{
+            .url = "git+https://github.com/ibara/yacc.git#84fb35c388f3ae877f5164ea480d4020fad1ec65",
+            .hash = "N-V-__8AAPWHAgDe5mrPxSAK9Dbqf5ObwXNmhmalzs2Y3Rrl",
+        },
+    },
+    .paths = .{
+        "build.zig.zon",
+        "build.zig",
+        "README.md",
+    },
+}
