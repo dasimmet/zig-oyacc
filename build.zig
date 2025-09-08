@@ -19,6 +19,7 @@ pub fn build(b: *std.Build) void {
             "-Werror",
             "-Wno-error=empty-translation-unit",
             "-pedantic",
+            "-fno-strict-overflow",
         },
         .files = &.{
             "closure.c",
