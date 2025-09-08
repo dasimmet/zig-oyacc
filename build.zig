@@ -14,8 +14,6 @@ pub fn build(b: *std.Build) void {
     mod.addCSourceFiles(.{
         .root = yacc_dep.path(""),
         .flags = &.{
-            "-D_GNU_SOURCE",
-            "-D__unused=",
             "-Wall",
             "-Wextra",
             "-Werror",
@@ -38,14 +36,22 @@ pub fn build(b: *std.Build) void {
             "portable.c",
         },
     });
+    mod.addCMacro("_GNU_SOURCE", "");
+    mod.addCMacro("_unused", "");
+
+    const dead_def: ?enum { @"__attribute__((__noreturn__))" } = if (target.result.os.tag == .macos)
+        null
+    else
+        .@"__attribute__((__noreturn__))";
+
     const config_h = b.addConfigHeader(.{
         .include_path = "config.h",
         .style = .blank,
     }, .{
-        .__dead = .@"__attribute__((__noreturn__))",
+        .__dead = dead_def,
         .HAVE_PROGNAME = {},
         .HAVE_ASPRINTF = {},
-        .HAVE_REALLOCARRAY = {},
+        .HAVE_REALLOCARRAY = if (target.result.os.tag == .windows or target.result.os.tag == .macos) null else {},
         .HAVE_STRLCPY = {},
     });
     mod.addIncludePath(config_h.getOutputDir());
