@@ -50,11 +50,12 @@ pub fn build(b: *std.Build) void {
         .style = .blank,
     }, .{
         .__dead = dead_def,
-        .HAVE_PROGNAME = {},
+        .HAVE_PROGNAME = if (target.result.isMinGW()) null else {},
         .HAVE_ASPRINTF = {},
         .HAVE_REALLOCARRAY = if (target.result.os.tag == .windows or target.result.os.tag == .macos) null else {},
-        .HAVE_STRLCPY = {},
+        .HAVE_STRLCPY = if (target.result.isGnuLibC() or target.result.isMinGW()) null else {},
     });
+    mod.addIncludePath(b.path(""));
     mod.addIncludePath(config_h.getOutputDir());
 
     const exe = b.addExecutable(.{

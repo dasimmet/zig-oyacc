@@ -13,5 +13,6 @@
         "build.zig.zon",
         "build.zig",
         "README.md",
+        "paths.h",
     },
 }
